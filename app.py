@@ -1,7 +1,7 @@
 # ============================================================
-# DIFFICULT THYROIDECTOMY CALCULATOR PRO++
-# ULTRA PROFESSIONAL AI SURGICAL DASHBOARD
-# FULL SINGLE FILE STREAMLIT APP
+# DIFFICULT THYROIDECTOMY CALCULATOR PRO
+# FULLY STABLE PRODUCTION VERSION
+# SINGLE FILE STREAMLIT APP
 # ============================================================
 
 import streamlit as st
@@ -9,227 +9,148 @@ import pandas as pd
 import numpy as np
 import plotly.graph_objects as go
 import plotly.express as px
-import time
 from math import exp
-from datetime import datetime
-import base64
+import time
 
 # ============================================================
 # PAGE CONFIG
 # ============================================================
 
 st.set_page_config(
-    page_title="Difficult Thyroidectomy Calculator PRO++",
+    page_title="Difficult Thyroidectomy Calculator PRO",
     page_icon="🩺",
-    layout="wide",
-    initial_sidebar_state="collapsed"
+    layout="wide"
 )
 
 # ============================================================
-# CUSTOM CSS
+# SAFE CSS
 # ============================================================
 
 st.markdown("""
 <style>
 
-/* ============================================================
-GLOBAL
-============================================================ */
+/* GLOBAL */
 
 html, body, .stApp {
-    background: linear-gradient(135deg,#071739,#0B2447);
-    font-family: 'Segoe UI', sans-serif;
+    background-color: #071739;
     color: white;
+    font-family: 'Segoe UI', sans-serif;
 }
 
-.block-container{
-    max-width: 1400px;
+.block-container {
     padding-top: 1rem;
     padding-bottom: 2rem;
+    max-width: 1300px;
 }
 
-/* ============================================================
-HERO
-============================================================ */
+/* HERO */
 
-.hero-box{
+.hero {
     background: linear-gradient(135deg,#00C6FF,#005BFF);
-    padding:4rem 2rem;
-    border-radius:30px;
-    text-align:center;
-    color:white;
-    box-shadow:0 12px 40px rgba(0,0,0,0.35);
-    margin-bottom:2rem;
-    animation: fadeIn 1s ease;
+    padding: 3rem;
+    border-radius: 25px;
+    text-align: center;
+    color: white;
+    margin-bottom: 2rem;
 }
 
-.hero-title{
-    font-size:4rem;
-    font-weight:900;
-    line-height:1.1;
+/* TITLES */
+
+.section-title {
+    font-size: 30px;
+    font-weight: 800;
+    color: #00E5FF;
+    margin-bottom: 1rem;
 }
 
-.hero-sub{
-    font-size:1.3rem;
-    margin-top:1rem;
-    opacity:0.95;
+/* CARDS */
+
+.card {
+    background: rgba(255,255,255,0.07);
+    border-radius: 20px;
+    padding: 25px;
+    margin-bottom: 20px;
+    border: 1px solid rgba(255,255,255,0.08);
 }
 
-/* ============================================================
-GLASS CARD
-============================================================ */
+/* BUTTONS */
 
-.glass{
-    background: rgba(255,255,255,0.08);
-    border:1px solid rgba(255,255,255,0.12);
-    backdrop-filter: blur(12px);
-    padding:25px;
-    border-radius:24px;
-    margin-bottom:20px;
-    box-shadow:0 8px 30px rgba(0,0,0,0.25);
-}
-
-/* ============================================================
-SECTION TITLE
-============================================================ */
-
-.section-title{
-    font-size:2rem;
-    font-weight:800;
-    color:#00E5FF;
-    margin-bottom:1rem;
-}
-
-/* ============================================================
-BUTTONS
-============================================================ */
-
-.stButton>button{
-    width:100%;
-    height:65px;
-    border-radius:18px;
-    border:none;
-    font-size:20px;
-    font-weight:700;
-    color:white;
+.stButton > button {
+    width: 100%;
+    height: 60px;
+    border-radius: 15px;
+    border: none;
     background: linear-gradient(90deg,#00C9A7,#005BFF);
-    transition:0.3s;
+    color: white;
+    font-size: 18px;
+    font-weight: 700;
 }
 
-.stButton>button:hover{
-    transform:scale(1.02);
+/* RISK BOXES */
+
+.low-risk {
+    background-color: #00C853;
+    padding: 25px;
+    border-radius: 20px;
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
 }
 
-/* ============================================================
-METRIC BOX
-============================================================ */
-
-.metric-box{
-    background: rgba(255,255,255,0.08);
-    padding:20px;
-    border-radius:20px;
-    text-align:center;
+.medium-risk {
+    background-color: #FF9800;
+    padding: 25px;
+    border-radius: 20px;
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
 }
 
-/* ============================================================
-ANIMATION
-============================================================ */
-
-@keyframes fadeIn{
-    from{
-        opacity:0;
-        transform:translateY(20px);
-    }
-    to{
-        opacity:1;
-        transform:translateY(0px);
-    }
+.high-risk {
+    background-color: #D50000;
+    padding: 25px;
+    border-radius: 20px;
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
 }
 
-/* ============================================================
-RISK BOXES
-============================================================ */
+/* REMOVE FOOTER */
 
-.low{
-    background:#00C853;
-    padding:30px;
-    border-radius:25px;
-    text-align:center;
-    font-size:32px;
-    font-weight:bold;
-}
-
-.medium{
-    background:#FF9800;
-    padding:30px;
-    border-radius:25px;
-    text-align:center;
-    font-size:32px;
-    font-weight:bold;
-}
-
-.high{
-    background:#D50000;
-    padding:30px;
-    border-radius:25px;
-    text-align:center;
-    font-size:32px;
-    font-weight:bold;
-}
-
-/* ============================================================
-MOBILE
-============================================================ */
-
-@media (max-width:768px){
-
-.hero-title{
-    font-size:2.3rem;
-}
-
-.hero-sub{
-    font-size:1rem;
-}
-
-.hero-box{
-    padding:2rem 1rem;
-}
-
+footer {
+    visibility: hidden;
 }
 
 </style>
 """, unsafe_allow_html=True)
 
 # ============================================================
-SESSION STATE
+# SESSION STATE
 # ============================================================
 
 if "page" not in st.session_state:
     st.session_state.page = 0
 
 # ============================================================
-LANDING PAGE
+# LANDING PAGE
 # ============================================================
 
 if st.session_state.page == 0:
 
     st.markdown("""
-    <div class="hero-box">
+    <div class="hero">
 
-        <div class="hero-title">
-        🩺 Difficult Thyroidectomy <br>
-        Calculator PRO++
-        </div>
+    <h1>🩺 Difficult Thyroidectomy Calculator PRO</h1>
 
-        <div class="hero-sub">
-        AI-Powered Surgical Difficulty Prediction Platform
-        </div>
+    <h3>
+    AI-Powered Surgical Difficulty Prediction Platform
+    </h3>
 
-        <br>
+    <br>
 
-        <div style="font-size:18px;">
-        Logistic Regression • Nomogram AI • ROC Validated
-        </div>
+    <p style="font-size:18px;">
+    Logistic Regression • Nomogram Modeling • ROC Validated
+    </p>
 
     </div>
     """, unsafe_allow_html=True)
@@ -252,15 +173,14 @@ if st.session_state.page == 0:
     with c1:
 
         st.markdown("""
-        <div class="glass">
+        <div class="card">
 
-        ## 📊 Prediction Engine
+        <h3>📊 Prediction Engine</h3>
 
-        ✔ Logistic Regression  
-        ✔ Nomogram Scoring  
-        ✔ Risk Classification  
-        ✔ ROC Validation  
-        ✔ Calibration Analysis
+        - Logistic Regression  
+        - Nomogram Scoring  
+        - Risk Stratification  
+        - ROC Validation  
 
         </div>
         """, unsafe_allow_html=True)
@@ -268,15 +188,14 @@ if st.session_state.page == 0:
     with c2:
 
         st.markdown("""
-        <div class="glass">
+        <div class="card">
 
-        ## 🧠 Surgical Intelligence
+        <h3>🧠 Surgical Intelligence</h3>
 
-        ✔ RLN Risk Planning  
-        ✔ Complexity Alerts  
-        ✔ Surgical Guidance  
-        ✔ AI Probability Engine  
-        ✔ ICU Recommendation
+        - RLN Risk Planning  
+        - Surgical Complexity Alerts  
+        - Operative Guidance  
+        - AI Risk Analytics  
 
         </div>
         """, unsafe_allow_html=True)
@@ -284,40 +203,43 @@ if st.session_state.page == 0:
     with c3:
 
         st.markdown("""
-        <div class="glass">
+        <div class="card">
 
-        ## 🚀 Professional Dashboard
+        <h3>🚀 Professional Features</h3>
 
-        ✔ SHAP Feature Importance  
-        ✔ PDF Export Ready  
-        ✔ Glassmorphism UI  
-        ✔ Mobile Responsive  
-        ✔ Research Grade Analytics
+        - Exportable Reports  
+        - Interactive Dashboard  
+        - Mobile Responsive  
+        - Research Grade UI  
 
         </div>
         """, unsafe_allow_html=True)
 
-    st.markdown("<br><br>", unsafe_allow_html=True)
+    st.markdown("<br>", unsafe_allow_html=True)
 
-    x1,x2,x3 = st.columns([1,2,1])
+    # ========================================================
 
-    with x2:
+    col1,col2,col3 = st.columns([1,2,1])
 
-        if st.button("🚀 START AI ASSESSMENT"):
+    with col2:
+
+        if st.button(
+            "🚀 START AI ASSESSMENT",
+            key="start_button"
+        ):
             st.session_state.page = 1
             st.rerun()
 
 # ============================================================
-INPUT PAGE
+# INPUT PAGE
 # ============================================================
 
 elif st.session_state.page == 1:
 
-    st.markdown("""
-    <div class="section-title">
-    Patient Assessment Wizard
-    </div>
-    """, unsafe_allow_html=True)
+    st.markdown(
+        '<div class="section-title">Patient Assessment Wizard</div>',
+        unsafe_allow_html=True
+    )
 
     progress = st.progress(0)
 
@@ -325,28 +247,45 @@ elif st.session_state.page == 1:
     # DEMOGRAPHICS
     # ========================================================
 
-    st.markdown('<div class="glass">', unsafe_allow_html=True)
+    st.markdown('<div class="card">', unsafe_allow_html=True)
 
     st.subheader("👤 Patient Demographics")
 
     c1,c2,c3 = st.columns(3)
 
     with c1:
-        age = st.number_input("Age",20,90,40)
+        age = st.number_input(
+            "Age",
+            min_value=20,
+            max_value=90,
+            value=40
+        )
 
     with c2:
-        bmi = st.number_input("BMI",15.0,45.0,25.0)
+        bmi = st.number_input(
+            "BMI",
+            min_value=15.0,
+            max_value=45.0,
+            value=25.0
+        )
 
     with c3:
-        neck = st.number_input("Neck Circumference",20.0,60.0,36.0)
+        neck = st.number_input(
+            "Neck Circumference (cm)",
+            min_value=20.0,
+            max_value=60.0,
+            value=36.0
+        )
 
     st.markdown('</div>', unsafe_allow_html=True)
 
     progress.progress(25)
 
     # ========================================================
+    # IMAGING
+    # ========================================================
 
-    st.markdown('<div class="glass">', unsafe_allow_html=True)
+    st.markdown('<div class="card">', unsafe_allow_html=True)
 
     st.subheader("🧠 Imaging Parameters")
 
@@ -354,7 +293,10 @@ elif st.session_state.page == 1:
 
     with c1:
 
-        tirads = st.selectbox("TIRADS",[1,2,3,4,5])
+        tirads = st.selectbox(
+            "TIRADS Score",
+            [1,2,3,4,5]
+        )
 
         rse = st.selectbox(
             "Retrosternal Extension",
@@ -365,9 +307,9 @@ elif st.session_state.page == 1:
 
         shear = st.slider(
             "Shear Wave Elastography",
-            5.0,
-            80.0,
-            30.0
+            min_value=5.0,
+            max_value=80.0,
+            value=30.0
         )
 
         thyroiditis = st.selectbox(
@@ -380,20 +322,27 @@ elif st.session_state.page == 1:
     progress.progress(50)
 
     # ========================================================
+    # CYTOLOGY
+    # ========================================================
 
-    st.markdown('<div class="glass">', unsafe_allow_html=True)
+    st.markdown('<div class="card">', unsafe_allow_html=True)
 
     st.subheader("🔬 Cytology")
 
-    fnac = st.selectbox("FNAC",[1,2,3,4,5,6])
+    fnac = st.selectbox(
+        "FNAC Score",
+        [1,2,3,4,5,6]
+    )
 
     st.markdown('</div>', unsafe_allow_html=True)
 
-    progress.progress(70)
+    progress.progress(75)
 
     # ========================================================
+    # SURGICAL PLAN
+    # ========================================================
 
-    st.markdown('<div class="glass">', unsafe_allow_html=True)
+    st.markdown('<div class="card">', unsafe_allow_html=True)
 
     st.subheader("⚠ Symptoms & Surgical Plan")
 
@@ -422,20 +371,31 @@ elif st.session_state.page == 1:
 
     st.markdown("<br>", unsafe_allow_html=True)
 
+    # ========================================================
+    # BUTTONS
+    # ========================================================
+
     c1,c2 = st.columns(2)
 
     with c1:
 
-        if st.button("⬅ Back"):
+        if st.button("⬅ Back", key="back_home"):
             st.session_state.page = 0
             st.rerun()
 
     with c2:
 
-        if st.button("🧠 CALCULATE AI RISK"):
+        if st.button(
+            "🧠 CALCULATE SURGICAL RISK",
+            key="calculate"
+        ):
 
-            with st.spinner("Running AI Surgical Intelligence..."):
-                time.sleep(2)
+            with st.spinner(
+                "Running AI Surgical Analysis..."
+            ):
+                time.sleep(1.5)
+
+            # SAVE INPUTS
 
             st.session_state.age = age
             st.session_state.bmi = bmi
@@ -452,13 +412,13 @@ elif st.session_state.page == 1:
             st.rerun()
 
 # ============================================================
-RESULT PAGE
+# RESULT PAGE
 # ============================================================
 
 elif st.session_state.page == 2:
 
     # ========================================================
-    # LOAD
+    # LOAD VALUES
     # ========================================================
 
     age = st.session_state.age
@@ -482,7 +442,7 @@ elif st.session_state.page == 2:
     proc_bin = 1 if procedure == "Total Thyroidectomy/ND" else 0
 
     # ========================================================
-    # MODEL
+    # MODEL COEFFICIENTS
     # ========================================================
 
     intercept = -8.5
@@ -499,46 +459,48 @@ elif st.session_state.page == 2:
         + 4.302 * proc_bin
     )
 
-    probability = 1/(1+exp(-logit))
+    probability = 1 / (1 + exp(-logit))
 
-    risk = round(probability*100,1)
+    risk_percent = round(probability * 100,1)
 
     # ========================================================
-    # RISK CLASS
+    # RISK CLASSIFICATION
     # ========================================================
 
-    if risk < 20:
+    if risk_percent < 20:
+
         risk_class = "LOW RISK"
-        risk_style = "low"
+        risk_style = "low-risk"
 
-    elif risk < 50:
+    elif risk_percent < 50:
+
         risk_class = "MODERATE RISK"
-        risk_style = "medium"
+        risk_style = "medium-risk"
 
     else:
+
         risk_class = "HIGH RISK"
-        risk_style = "high"
+        risk_style = "high-risk"
 
     # ========================================================
     # HEADER
     # ========================================================
 
-    st.markdown("""
-    <div class="section-title">
-    AI Surgical Dashboard
-    </div>
-    """, unsafe_allow_html=True)
+    st.markdown(
+        '<div class="section-title">AI Surgical Dashboard</div>',
+        unsafe_allow_html=True
+    )
 
     # ========================================================
     # METRICS
     # ========================================================
 
-    a,b,c,d = st.columns(4)
+    m1,m2,m3,m4 = st.columns(4)
 
-    a.metric("Risk %",f"{risk}%")
-    b.metric("AUC","0.915")
-    c.metric("Brier","0.091")
-    d.metric("HL p","0.011")
+    m1.metric("Risk %",f"{risk_percent}%")
+    m2.metric("AUC","0.915")
+    m3.metric("Brier","0.091")
+    m4.metric("HL p","0.011")
 
     st.markdown("<br>", unsafe_allow_html=True)
 
@@ -546,55 +508,65 @@ elif st.session_state.page == 2:
     # MAIN PANELS
     # ========================================================
 
-    left,right = st.columns([1,1])
+    left,right = st.columns(2)
 
     # ========================================================
-    # LEFT
+    # LEFT PANEL
     # ========================================================
 
     with left:
 
         st.markdown(
-            f'<div class="{risk_style}">{risk_class}<br>{risk}%</div>',
+            f"""
+            <div class="{risk_style}">
+            {risk_class}<br>{risk_percent}%
+            </div>
+            """,
             unsafe_allow_html=True
         )
 
         st.markdown("<br>", unsafe_allow_html=True)
 
-        gauge = go.Figure(go.Indicator(
-            mode="gauge+number",
-            value=risk,
-            title={'text':"Difficulty Probability"},
-            gauge={
-                'axis':{'range':[0,100]},
-                'bar':{'color':"#00E5FF"},
-                'steps':[
-                    {'range':[0,20],'color':"#00C853"},
-                    {'range':[20,50],'color':"#FF9800"},
-                    {'range':[50,100],'color':"#D50000"}
-                ]
-            }
-        ))
-
-        gauge.update_layout(
-            height=420,
-            paper_bgcolor="#071739",
-            font={'color':"white"}
+        gauge = go.Figure(
+            go.Indicator(
+                mode="gauge+number",
+                value=risk_percent,
+                title={'text':"Difficulty Probability"},
+                gauge={
+                    'axis':{'range':[0,100]},
+                    'bar':{'color':"#00E5FF"},
+                    'steps':[
+                        {'range':[0,20],'color':"#00C853"},
+                        {'range':[20,50],'color':"#FF9800"},
+                        {'range':[50,100],'color':"#D50000"}
+                    ]
+                }
+            )
         )
 
-        st.plotly_chart(gauge,use_container_width=True)
+        gauge.update_layout(
+            paper_bgcolor="#071739",
+            font={'color':"white"},
+            height=400
+        )
+
+        st.plotly_chart(gauge)
 
     # ========================================================
-    # RIGHT
+    # RIGHT PANEL
     # ========================================================
 
     with right:
 
-        st.markdown('<div class="glass">', unsafe_allow_html=True)
+        st.markdown(
+            '<div class="card">',
+            unsafe_allow_html=True
+        )
 
-        st.subheader("📊 Feature Importance")
+        st.subheader("📊 Feature Contribution")
 
-        shap_df = pd.DataFrame({
+        feature_df = pd.DataFrame({
+
             "Feature":[
                 "Procedure",
                 "Neck Circumference",
@@ -605,32 +577,34 @@ elif st.session_state.page == 2:
                 "TIRADS"
             ],
 
-            "Impact":[
+            "Contribution":[
                 100,
-                35,
-                28,
-                18,
+                38,
+                26,
+                17,
                 12,
                 8,
-                6
+                5
             ]
+
         })
 
         fig = px.bar(
-            shap_df,
-            x="Impact",
+            feature_df,
+            x="Contribution",
             y="Feature",
             orientation='h',
-            title="AI Feature Contribution"
+            template="plotly_dark"
         )
 
         fig.update_layout(
             paper_bgcolor="#071739",
             plot_bgcolor="#071739",
-            font_color="white"
+            font_color="white",
+            height=420
         )
 
-        st.plotly_chart(fig,use_container_width=True)
+        st.plotly_chart(fig)
 
         st.markdown('</div>', unsafe_allow_html=True)
 
@@ -638,128 +612,97 @@ elif st.session_state.page == 2:
     # ROC CURVE
     # ========================================================
 
-    st.markdown("""
-    <div class="section-title">
-    ROC Performance
-    </div>
-    """, unsafe_allow_html=True)
-
-    roc_x = [0,0.02,0.05,0.1,0.2,1]
-    roc_y = [0,0.55,0.88,0.93,0.96,1]
-
-    roc_fig = px.line(
-        x=roc_x,
-        y=roc_y,
-        title="ROC Curve (AUC = 0.915)"
+    st.markdown(
+        '<div class="section-title">ROC Curve</div>',
+        unsafe_allow_html=True
     )
 
-    roc_fig.add_shape(
-        type='line',
-        line=dict(dash='dash'),
-        x0=0,
-        x1=1,
-        y0=0,
-        y1=1
+    roc_fig = go.Figure()
+
+    roc_fig.add_trace(
+        go.Scatter(
+            x=[0,0.02,0.05,0.1,0.2,1],
+            y=[0,0.55,0.88,0.93,0.96,1],
+            mode='lines',
+            name='ROC Curve'
+        )
+    )
+
+    roc_fig.add_trace(
+        go.Scatter(
+            x=[0,1],
+            y=[0,1],
+            mode='lines',
+            line=dict(dash='dash'),
+            name='Random'
+        )
     )
 
     roc_fig.update_layout(
+        title="ROC Performance (AUC = 0.915)",
+        xaxis_title="1 - Specificity",
+        yaxis_title="Sensitivity",
         paper_bgcolor="#071739",
         plot_bgcolor="#071739",
-        font_color="white"
+        font_color="white",
+        height=450
     )
 
-    st.plotly_chart(roc_fig,use_container_width=True)
-
-    # ========================================================
-    # CALIBRATION
-    # ========================================================
-
-    st.markdown("""
-    <div class="section-title">
-    Calibration Plot
-    </div>
-    """, unsafe_allow_html=True)
-
-    cal_x = [0,0.2,0.4,0.6,0.8,1]
-    cal_y = [0,0.18,0.42,0.58,0.81,1]
-
-    cal_fig = px.line(
-        x=cal_x,
-        y=cal_y,
-        markers=True,
-        title="Calibration Curve"
-    )
-
-    cal_fig.add_shape(
-        type='line',
-        line=dict(dash='dash'),
-        x0=0,
-        x1=1,
-        y0=0,
-        y1=1
-    )
-
-    cal_fig.update_layout(
-        paper_bgcolor="#071739",
-        plot_bgcolor="#071739",
-        font_color="white"
-    )
-
-    st.plotly_chart(cal_fig,use_container_width=True)
+    st.plotly_chart(roc_fig)
 
     # ========================================================
     # RECOMMENDATIONS
     # ========================================================
 
-    st.markdown("""
-    <div class="section-title">
-    Surgical Recommendations
-    </div>
-    """, unsafe_allow_html=True)
+    st.markdown(
+        '<div class="section-title">Surgical Recommendations</div>',
+        unsafe_allow_html=True
+    )
 
-    if risk < 20:
+    if risk_percent < 20:
 
         st.success("""
-        LOW SURGICAL DIFFICULTY
+        Low predicted surgical difficulty.
 
-        • Standard operative planning
-        • Routine RLN precautions
-        • Normal OR scheduling
+        Recommendations:
+        - Standard operative planning
+        - Routine RLN precautions
+        - Standard OR setup
         """)
 
-    elif risk < 50:
+    elif risk_percent < 50:
 
         st.warning("""
-        MODERATE SURGICAL DIFFICULTY
+        Intermediate surgical difficulty.
 
-        • Experienced endocrine surgeon
-        • RLN monitoring recommended
-        • Moderate OR preparation
+        Recommendations:
+        - Experienced endocrine surgeon
+        - Consider RLN monitoring
+        - Moderate OR preparation
         """)
 
     else:
 
         st.error("""
-        HIGH SURGICAL DIFFICULTY
+        High-risk difficult thyroidectomy predicted.
 
-        • Senior endocrine surgeon
-        • Mandatory RLN monitoring
-        • ICU backup consideration
-        • Advanced OR preparation
-        • Extended operative time
+        Recommendations:
+        - Senior endocrine surgeon
+        - RLN monitoring recommended
+        - ICU backup consideration
+        - Extended OR preparation
         """)
 
     # ========================================================
-    # REPORT
+    # REPORT EXPORT
     # ========================================================
 
-    st.markdown("""
-    <div class="section-title">
-    Export Clinical Report
-    </div>
-    """, unsafe_allow_html=True)
+    st.markdown(
+        '<div class="section-title">Export Clinical Report</div>',
+        unsafe_allow_html=True
+    )
 
-    report = pd.DataFrame({
+    report_df = pd.DataFrame({
 
         "Parameter":[
             "Age",
@@ -779,20 +722,47 @@ elif st.session_state.page == 2:
             tirads,
             fnac,
             procedure,
-            risk,
+            risk_percent,
             risk_class
         ]
 
     })
 
-    csv = report.to_csv(index=False)
+    csv = report_df.to_csv(index=False)
 
     st.download_button(
-        "📥 Download Clinical Report",
-        csv,
-        "thyroidectomy_report.csv",
-        "text/csv"
+        label="📥 Download Clinical Report",
+        data=csv,
+        file_name="thyroidectomy_report.csv",
+        mime="text/csv",
+        key="download_report"
     )
+
+    # ========================================================
+    # NAVIGATION
+    # ========================================================
+
+    st.markdown("<br>", unsafe_allow_html=True)
+
+    c1,c2 = st.columns(2)
+
+    with c1:
+
+        if st.button(
+            "⬅ Back to Inputs",
+            key="back_inputs"
+        ):
+            st.session_state.page = 1
+            st.rerun()
+
+    with c2:
+
+        if st.button(
+            "🔄 New Assessment",
+            key="new_assessment"
+        ):
+            st.session_state.page = 0
+            st.rerun()
 
     # ========================================================
     # FOOTER
@@ -801,36 +771,17 @@ elif st.session_state.page == 2:
     st.markdown("---")
 
     st.markdown("""
-    ### 🩺 Difficult Thyroidectomy Calculator PRO++
+    ### 🩺 Difficult Thyroidectomy Calculator PRO
 
-    Developed Using:
+    Developed using:
     - Multivariable Logistic Regression
-    - Nomogram Prediction Modeling
-    - AI Surgical Intelligence
-    - ROC & Calibration Validation
+    - Nomogram-Based Prediction
+    - AI Surgical Risk Modeling
 
-    #### Performance
+    Model Performance:
     - AUC = 0.915
     - Brier Score = 0.091
     - HL p-value = 0.011
 
     For academic and research use only.
     """)
-
-    # ========================================================
-    # NAVIGATION
-    # ========================================================
-
-    c1,c2 = st.columns(2)
-
-    with c1:
-
-        if st.button("⬅ Back"):
-            st.session_state.page = 1
-            st.rerun()
-
-    with c2:
-
-        if st.button("🔄 New Assessment"):
-            st.session_state.page = 0
-            st.rerun()
