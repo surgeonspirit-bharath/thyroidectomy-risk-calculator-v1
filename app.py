@@ -40,66 +40,7 @@ html, body, [class*="css"] {
     radial-gradient(circle at top left, #0B2447 0%, #081229 60%);
 }
 
-/* HERO */
-
-.hero {
-    position: relative;
-    overflow: hidden;
-
-    padding: 70px;
-
-    border-radius: 35px;
-
-    background:
-    linear-gradient(
-    135deg,
-    #00C6FF,
-    #0072FF,
-    #7F00FF
-    );
-
-    background-size: 300% 300%;
-
-    animation: gradientMove 10s ease infinite;
-
-    text-align: center;
-
-    box-shadow:
-    0px 10px 40px rgba(0,0,0,0.35);
-
-    margin-bottom: 35px;
-}
-
-/* ANIMATION */
-
-@keyframes gradientMove {
-
-    0% {
-        background-position: 0% 50%;
-    }
-
-    50% {
-        background-position: 100% 50%;
-    }
-
-    100% {
-        background-position: 0% 50%;
-    }
-}
-
-.hero-title {
-    font-size: 58px;
-    font-weight: 900;
-    color: white;
-}
-
-.hero-sub {
-    font-size: 22px;
-    opacity: 0.95;
-    margin-top: 10px;
-}
-
-/* CARD */
+/* CARDS */
 
 .card {
 
@@ -118,12 +59,8 @@ html, body, [class*="css"] {
 
     transition: all 0.4s ease;
 
-    min-height: 240px;
-
     margin-bottom: 20px;
 }
-
-/* HOVER */
 
 .card:hover {
 
@@ -224,28 +161,37 @@ if "page" not in st.session_state:
 
 if st.session_state.page == 0:
 
+    # ========================================================
+    # HERO IMAGE
+    # ========================================================
+
+    st.image(
+        "a_highly_detailed_medical_poster_banner_style_imag.png",
+        use_container_width=True
+    )
+
+    st.markdown("<br>", unsafe_allow_html=True)
+
+    # ========================================================
+    # TITLE
+    # ========================================================
+
     st.markdown("""
-    <div class="hero">
+    # 🩺 DIFFICULT THYROIDECTOMY RISK CALCULATOR PRO
+    """)
 
-        <div class="hero-title">
-        🩺 Difficult Thyroidectomy Calculator PRO
-        </div>
+    st.markdown("""
+    ### AI-Powered Surgical Difficulty Prediction Platform
+    """)
 
-        <br>
+    st.markdown("""
+    #### Final MCh Thesis Model • Nomogram-Based Prediction
+    """)
 
-        <div class="hero-sub">
-        AI-Powered Surgical Difficulty Prediction Platform
-        </div>
+    st.markdown("---")
 
-        <br>
-
-        <div style="font-size:18px;">
-        Final MCh Thesis Model • Nomogram-Based Prediction
-        </div>
-
-    </div>
-    """, unsafe_allow_html=True)
-
+    # ========================================================
+    # METRICS
     # ========================================================
 
     s1,s2,s3,s4 = st.columns(4)
@@ -257,6 +203,8 @@ if st.session_state.page == 0:
 
     st.markdown("<br>", unsafe_allow_html=True)
 
+    # ========================================================
+    # FEATURE CARDS
     # ========================================================
 
     c1,c2,c3 = st.columns(3)
@@ -323,6 +271,10 @@ if st.session_state.page == 0:
 
     st.markdown("<br><br>", unsafe_allow_html=True)
 
+    # ========================================================
+    # CTA BUTTON
+    # ========================================================
+
     a,b,c = st.columns([1,2,1])
 
     with b:
@@ -330,6 +282,13 @@ if st.session_state.page == 0:
         if st.button("🚀 Start AI Assessment"):
             st.session_state.page = 1
             st.rerun()
+
+    st.markdown("<br>", unsafe_allow_html=True)
+
+    st.info("""
+    Developed using final MCh Endocrine Surgery thesis data
+    with multivariable logistic regression modeling.
+    """)
 
 # ============================================================
 # PAGE 2 — INPUT PAGE
@@ -461,7 +420,7 @@ elif st.session_state.page == 1:
     progress.progress(90)
 
     # ========================================================
-    # SURGICAL PLAN
+    # PROCEDURE
     # ========================================================
 
     st.markdown('<div class="card">', unsafe_allow_html=True)
@@ -518,14 +477,10 @@ elif st.session_state.page == 1:
             st.rerun()
 
 # ============================================================
-# PAGE 3 — RESULTS DASHBOARD
+# PAGE 3 — RESULTS PAGE
 # ============================================================
 
 elif st.session_state.page == 2:
-
-    # ========================================================
-    # LOAD DATA
-    # ========================================================
 
     age = st.session_state.age
     bmi = st.session_state.bmi
@@ -546,10 +501,6 @@ elif st.session_state.page == 2:
     rse_bin = 1 if rse == "Yes" else 0
     thyroiditis_bin = 1 if thyroiditis == "Yes" else 0
     compressive_bin = 1 if compressive == "Yes" else 0
-
-    # ========================================================
-    # PROCEDURE WEIGHTING
-    # ========================================================
 
     proc_bin = 0
 
@@ -595,10 +546,10 @@ elif st.session_state.page == 2:
     risk_percent = round(probability * 100,1)
 
     if risk_percent > 99:
-        risk_percent = 99.0
+        risk_percent = 99
 
     if risk_percent < 1:
-        risk_percent = 1.0
+        risk_percent = 1
 
     # ========================================================
     # RISK CATEGORY
@@ -615,22 +566,6 @@ elif st.session_state.page == 2:
     else:
         risk_class = "HIGH RISK"
         risk_style = "high"
-
-    # ========================================================
-    # SIDEBAR
-    # ========================================================
-
-    st.sidebar.title("Clinical Summary")
-
-    st.sidebar.success(f"""
-    Risk Probability: {risk_percent}%
-
-    Risk Category:
-    {risk_class}
-
-    Procedure:
-    {procedure}
-    """)
 
     # ========================================================
     # HEADER
@@ -660,10 +595,6 @@ elif st.session_state.page == 2:
     # ========================================================
 
     left,right = st.columns([1,1])
-
-    # ========================================================
-    # LEFT PANEL
-    # ========================================================
 
     with left:
 
@@ -696,10 +627,6 @@ elif st.session_state.page == 2:
         )
 
         st.plotly_chart(gauge,use_container_width=True)
-
-    # ========================================================
-    # RIGHT PANEL
-    # ========================================================
 
     with right:
 
@@ -792,7 +719,6 @@ elif st.session_state.page == 2:
         Recommendations:
         • Standard operative planning
         • Routine RLN precautions
-        • Standard operative setup
         """)
 
     elif risk_percent < 50:
@@ -802,7 +728,6 @@ elif st.session_state.page == 2:
 
         Recommendations:
         • Experienced endocrine surgeon
-        • Careful operative planning
         • Consider RLN monitoring
         """)
 
@@ -815,12 +740,11 @@ elif st.session_state.page == 2:
         • Senior endocrine surgeon
         • RLN monitoring
         • ICU backup consideration
-        • Advanced airway planning
         • Extended OR scheduling
         """)
 
     # ========================================================
-    # HIGH COMPLEXITY ALERT
+    # ALERT
     # ========================================================
 
     if procedure == "Total Thyroidectomy + Lymph Node Dissection":
@@ -828,18 +752,12 @@ elif st.session_state.page == 2:
         st.error("""
         ⚠ HIGH COMPLEXITY ALERT
 
-        Planned lymph node dissection significantly
+        Lymph node dissection significantly
         increases operative complexity and TDSS score.
-
-        Consider:
-        • Senior endocrine surgery team
-        • Neuromonitoring
-        • Blood preparation
-        • Extended operative preparation
         """)
 
     # ========================================================
-    # DOWNLOAD REPORT
+    # REPORT
     # ========================================================
 
     st.markdown("""
@@ -887,11 +805,11 @@ elif st.session_state.page == 2:
         mime="text/csv"
     )
 
+    st.markdown("<br>", unsafe_allow_html=True)
+
     # ========================================================
     # BUTTONS
     # ========================================================
-
-    st.markdown("<br>", unsafe_allow_html=True)
 
     c1,c2 = st.columns(2)
 
