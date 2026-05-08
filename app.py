@@ -1,8 +1,7 @@
 # ============================================================
 # DIFFICULT THYROIDECTOMY CALCULATOR PRO
-# STABLE CLINICAL VERSION
-# FINAL THESIS MODEL (n=180 | TDSS ≥14)
-# STREAMLIT + GITHUB READY
+# FINAL THESIS VERSION (n=180 | TDSS ≥14)
+# PREMIUM STABLE STREAMLIT VERSION
 # ============================================================
 
 import streamlit as st
@@ -19,11 +18,12 @@ import time
 st.set_page_config(
     page_title="Difficult Thyroidectomy Calculator PRO",
     page_icon="🩺",
-    layout="wide"
+    layout="wide",
+    initial_sidebar_state="collapsed"
 )
 
 # ============================================================
-# CSS
+# CUSTOM CSS
 # ============================================================
 
 st.markdown("""
@@ -31,89 +31,147 @@ st.markdown("""
 
 html, body, [class*="css"] {
     font-family: 'Segoe UI', sans-serif;
-    background-color: #081229;
+    background: #081229;
     color: white;
 }
 
 .main {
-    background: linear-gradient(135deg,#081229,#0B2447);
-}
-
-.block-container {
-    padding-top: 1rem;
-    padding-bottom: 2rem;
+    background:
+    radial-gradient(circle at top left, #0B2447 0%, #081229 60%);
 }
 
 /* HERO */
 
 .hero {
-    background: linear-gradient(135deg,#00C6FF,#0072FF);
-    padding: 50px;
-    border-radius: 25px;
+    position: relative;
+    overflow: hidden;
+
+    padding: 70px;
+
+    border-radius: 35px;
+
+    background:
+    linear-gradient(
+    135deg,
+    #00C6FF,
+    #0072FF,
+    #7F00FF
+    );
+
+    background-size: 300% 300%;
+
+    animation: gradientMove 10s ease infinite;
+
     text-align: center;
-    color: white;
-    margin-bottom: 30px;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+
+    box-shadow:
+    0px 10px 40px rgba(0,0,0,0.35);
+
+    margin-bottom: 35px;
+}
+
+/* ANIMATION */
+
+@keyframes gradientMove {
+
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
 }
 
 .hero-title {
-    font-size: 48px;
-    font-weight: 800;
+    font-size: 58px;
+    font-weight: 900;
+    color: white;
 }
 
 .hero-sub {
-    font-size: 20px;
+    font-size: 22px;
     opacity: 0.95;
+    margin-top: 10px;
 }
 
-/* CARDS */
+/* CARD */
 
 .card {
-    background: rgba(255,255,255,0.08);
-    backdrop-filter: blur(10px);
-    border-radius: 20px;
-    padding: 25px;
+
+    background:
+    rgba(255,255,255,0.08);
+
+    backdrop-filter:
+    blur(12px);
+
+    border-radius: 24px;
+
+    padding: 28px;
+
+    box-shadow:
+    0px 8px 30px rgba(0,0,0,0.25);
+
+    transition: all 0.4s ease;
+
+    min-height: 240px;
+
     margin-bottom: 20px;
-    box-shadow: 0px 8px 25px rgba(0,0,0,0.25);
+}
+
+/* HOVER */
+
+.card:hover {
+
+    transform:
+    translateY(-8px)
+    scale(1.02);
+
+    box-shadow:
+    0px 15px 40px rgba(0,229,255,0.35);
 }
 
 /* TITLES */
 
 .section-title {
-    font-size: 28px;
-    font-weight: 700;
+    font-size: 32px;
+    font-weight: 800;
     color: #00E5FF;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
 }
 
-/* RISK */
+/* RISK BOXES */
 
 .low {
     background: #00C853;
-    padding: 20px;
+    padding: 22px;
     border-radius: 18px;
     text-align: center;
-    font-size: 28px;
+    font-size: 30px;
     font-weight: bold;
     color: white;
 }
 
 .medium {
     background: #FF9800;
-    padding: 20px;
+    padding: 22px;
     border-radius: 18px;
     text-align: center;
-    font-size: 28px;
+    font-size: 30px;
     font-weight: bold;
     color: white;
 }
 
 .high {
     background: #D50000;
-    padding: 20px;
+    padding: 22px;
     border-radius: 18px;
     text-align: center;
-    font-size: 28px;
+    font-size: 30px;
     font-weight: bold;
     color: white;
 }
@@ -121,17 +179,30 @@ html, body, [class*="css"] {
 /* BUTTON */
 
 .stButton > button {
+
     width: 100%;
-    border-radius: 14px;
-    height: 3.2em;
+
+    border-radius: 16px;
+
+    height: 3.5em;
+
     font-size: 18px;
+
     font-weight: 700;
-    background: linear-gradient(90deg,#00C9A7,#005BFF);
-    color: white;
+
     border: none;
+
+    color: white;
+
+    background:
+    linear-gradient(
+    90deg,
+    #00C9A7,
+    #005BFF
+    );
 }
 
-/* HIDE FOOTER */
+/* FOOTER */
 
 footer {
     visibility: hidden;
@@ -148,7 +219,7 @@ if "page" not in st.session_state:
     st.session_state.page = 0
 
 # ============================================================
-# PAGE 1
+# PAGE 1 — LANDING PAGE
 # ============================================================
 
 if st.session_state.page == 0:
@@ -175,61 +246,93 @@ if st.session_state.page == 0:
     </div>
     """, unsafe_allow_html=True)
 
-    c1, c2, c3 = st.columns(3)
+    # ========================================================
+
+    s1,s2,s3,s4 = st.columns(4)
+
+    s1.metric("Patients","180")
+    s2.metric("AUC","0.905")
+    s3.metric("Sensitivity","84.1%")
+    s4.metric("Specificity","93.9%")
+
+    st.markdown("<br>", unsafe_allow_html=True)
+
+    # ========================================================
+
+    c1,c2,c3 = st.columns(3)
 
     with c1:
+
         st.markdown("""
         <div class="card">
 
-        ### 📊 Prediction Engine
+        ## 📊 Prediction Engine
 
-        • Logistic Regression  
-        • Nomogram Model  
-        • Risk Stratification  
-        • ROC Validated  
+        Advanced multivariable
+        logistic regression model.
+
+        <br>
+
+        ✅ Nomogram scoring  
+        ✅ ROC validated  
+        ✅ Dynamic probability  
+        ✅ TDSS-based model
 
         </div>
         """, unsafe_allow_html=True)
 
     with c2:
+
         st.markdown("""
         <div class="card">
 
-        ### 🧠 Surgical Intelligence
+        ## 🧠 Surgical Intelligence
 
-        • Risk Gauge  
-        • Complexity Alerts  
-        • Operative Planning  
-        • Recommendations  
+        AI-assisted operative
+        difficulty prediction.
+
+        <br>
+
+        ✅ RLN awareness  
+        ✅ Complexity alerts  
+        ✅ Neck dissection impact  
+        ✅ Operative planning
 
         </div>
         """, unsafe_allow_html=True)
 
     with c3:
+
         st.markdown("""
         <div class="card">
 
-        ### 🚀 Professional Features
+        ## 🚀 Professional Dashboard
 
-        • Clinical Dashboard  
-        • Downloadable Report  
-        • Mobile Responsive  
-        • Glassmorphism UI  
+        Premium endocrine surgery
+        decision support system.
+
+        <br>
+
+        ✅ Downloadable report  
+        ✅ Mobile responsive  
+        ✅ Modern UI  
+        ✅ Glassmorphism
 
         </div>
         """, unsafe_allow_html=True)
 
-    st.markdown("<br>", unsafe_allow_html=True)
+    st.markdown("<br><br>", unsafe_allow_html=True)
 
     a,b,c = st.columns([1,2,1])
 
     with b:
-        if st.button("🚀 Start Assessment"):
+
+        if st.button("🚀 Start AI Assessment"):
             st.session_state.page = 1
             st.rerun()
 
 # ============================================================
-# PAGE 2 - INPUTS
+# PAGE 2 — INPUT PAGE
 # ============================================================
 
 elif st.session_state.page == 1:
@@ -311,7 +414,7 @@ elif st.session_state.page == 1:
     progress.progress(55)
 
     # ========================================================
-    # FNAC
+    # CYTOLOGY
     # ========================================================
 
     st.markdown('<div class="card">', unsafe_allow_html=True)
@@ -328,42 +431,51 @@ elif st.session_state.page == 1:
     progress.progress(75)
 
     # ========================================================
-    # SURGICAL PLAN
+    # SYMPTOMS
     # ========================================================
 
     st.markdown('<div class="card">', unsafe_allow_html=True)
 
-    st.subheader("⚠ Surgical Planning")
+    st.subheader("⚠ Symptoms")
 
-    c1,c2,c3 = st.columns(3)
+    c1,c2 = st.columns(2)
 
     with c1:
-
-        procedure = st.selectbox(
-            "Primary Procedure",
-            [
-                "Hemithyroidectomy",
-                "Total Thyroidectomy"
-            ]
-        )
-
-    with c2:
-
-        neck_dissection = st.selectbox(
-            "Lymph Node Dissection Planned",
-            [
-                "No",
-                "Central Compartment",
-                "Lateral Neck Dissection"
-            ]
-        )
-
-    with c3:
 
         compressive = st.selectbox(
             "Compressive Symptoms",
             ["No","Yes"]
         )
+
+    with c2:
+
+        symptom_duration = st.number_input(
+            "Duration of Symptoms (months)",
+            0,
+            240,
+            12
+        )
+
+    st.markdown('</div>', unsafe_allow_html=True)
+
+    progress.progress(90)
+
+    # ========================================================
+    # SURGICAL PLAN
+    # ========================================================
+
+    st.markdown('<div class="card">', unsafe_allow_html=True)
+
+    st.subheader("🩺 Procedure Planned")
+
+    procedure = st.selectbox(
+        "Procedure Type",
+        [
+            "Hemithyroidectomy",
+            "Total Thyroidectomy",
+            "Total Thyroidectomy + Lymph Node Dissection"
+        ]
+    )
 
     st.markdown('</div>', unsafe_allow_html=True)
 
@@ -390,10 +502,6 @@ elif st.session_state.page == 1:
             with st.spinner("Running AI Surgical Analysis..."):
                 time.sleep(1.5)
 
-            # =================================================
-            # STORE DATA
-            # =================================================
-
             st.session_state.age = age
             st.session_state.bmi = bmi
             st.session_state.neck = neck
@@ -402,15 +510,15 @@ elif st.session_state.page == 1:
             st.session_state.shear = shear
             st.session_state.thyroiditis = thyroiditis
             st.session_state.fnac = fnac
-            st.session_state.procedure = procedure
-            st.session_state.neck_dissection = neck_dissection
             st.session_state.compressive = compressive
+            st.session_state.symptom_duration = symptom_duration
+            st.session_state.procedure = procedure
 
             st.session_state.page = 2
             st.rerun()
 
 # ============================================================
-# PAGE 3 - RESULTS
+# PAGE 3 — RESULTS DASHBOARD
 # ============================================================
 
 elif st.session_state.page == 2:
@@ -427,9 +535,9 @@ elif st.session_state.page == 2:
     shear = st.session_state.shear
     thyroiditis = st.session_state.thyroiditis
     fnac = st.session_state.fnac
-    procedure = st.session_state.procedure
-    neck_dissection = st.session_state.neck_dissection
     compressive = st.session_state.compressive
+    symptom_duration = st.session_state.symptom_duration
+    procedure = st.session_state.procedure
 
     # ========================================================
     # ENCODING
@@ -446,10 +554,10 @@ elif st.session_state.page == 2:
     proc_bin = 0
 
     if procedure == "Total Thyroidectomy":
-        proc_bin += 1
+        proc_bin = 1
 
-    if neck_dissection != "No":
-        proc_bin += 1
+    elif procedure == "Total Thyroidectomy + Lymph Node Dissection":
+        proc_bin = 1.5
 
     # ========================================================
     # FINAL THESIS MODEL
@@ -485,8 +593,6 @@ elif st.session_state.page == 2:
     probability = 1 / (1 + exp(-logit))
 
     risk_percent = round(probability * 100,1)
-
-    # LIMITS
 
     if risk_percent > 99:
         risk_percent = 99.0
@@ -524,9 +630,6 @@ elif st.session_state.page == 2:
 
     Procedure:
     {procedure}
-
-    Neck Dissection:
-    {neck_dissection}
     """)
 
     # ========================================================
@@ -720,13 +823,13 @@ elif st.session_state.page == 2:
     # HIGH COMPLEXITY ALERT
     # ========================================================
 
-    if proc_bin >= 2:
+    if procedure == "Total Thyroidectomy + Lymph Node Dissection":
 
         st.error("""
         ⚠ HIGH COMPLEXITY ALERT
 
-        Lymph node dissection significantly increases
-        operative complexity and TDSS score.
+        Planned lymph node dissection significantly
+        increases operative complexity and TDSS score.
 
         Consider:
         • Senior endocrine surgery team
@@ -736,7 +839,7 @@ elif st.session_state.page == 2:
         """)
 
     # ========================================================
-    # REPORT
+    # DOWNLOAD REPORT
     # ========================================================
 
     st.markdown("""
@@ -753,8 +856,9 @@ elif st.session_state.page == 2:
             "Neck Circumference",
             "TIRADS",
             "FNAC",
+            "Compressive Symptoms",
+            "Symptom Duration",
             "Procedure",
-            "Neck Dissection",
             "Risk Probability",
             "Risk Category"
         ],
@@ -765,8 +869,9 @@ elif st.session_state.page == 2:
             neck,
             tirads,
             fnac,
+            compressive,
+            symptom_duration,
             procedure,
-            neck_dissection,
             risk_percent,
             risk_class
         ]
