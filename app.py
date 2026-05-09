@@ -7,7 +7,6 @@
 import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
-import plotly.express as px
 from math import exp
 import time
 
@@ -40,11 +39,35 @@ html, body, [class*="css"] {
     radial-gradient(circle at top left, #0B2447 0%, #071739 60%);
 }
 
-/* HERO */
+/* =========================================================
+HERO SECTION
+========================================================= */
 
-.hero {
+.big-title {
 
-    padding: 65px;
+    font-size: 58px;
+
+    font-weight: 900;
+
+    text-align: center;
+
+    color: white;
+
+    line-height: 1.1;
+}
+
+.sub-title {
+
+    font-size: 24px;
+
+    text-align: center;
+
+    color: #E0E0E0;
+}
+
+.hero-box {
+
+    padding: 70px;
 
     border-radius: 30px;
 
@@ -58,16 +81,12 @@ html, body, [class*="css"] {
 
     background-size: 300% 300%;
 
-    animation: gradient 12s ease infinite;
-
-    text-align: center;
-
-    color: white;
-
-    margin-bottom: 30px;
+    animation: gradient 10s ease infinite;
 
     box-shadow:
-    0px 10px 40px rgba(0,0,0,0.35);
+    0px 12px 40px rgba(0,0,0,0.35);
+
+    margin-bottom: 40px;
 }
 
 @keyframes gradient {
@@ -85,17 +104,18 @@ html, body, [class*="css"] {
     }
 }
 
-.hero-title {
-    font-size: 56px;
-    font-weight: 900;
+.tagline {
+
+    text-align:center;
+
+    font-size:18px;
+
+    color:#F0F0F0;
 }
 
-.hero-sub {
-    font-size: 22px;
-    opacity: 0.95;
-}
-
-/* CARDS */
+/* =========================================================
+CARDS
+========================================================= */
 
 .card {
 
@@ -126,11 +146,13 @@ html, body, [class*="css"] {
     0px 12px 35px rgba(0,229,255,0.35);
 }
 
-/* TITLES */
+/* =========================================================
+SECTION TITLES
+========================================================= */
 
 .section-title {
 
-    font-size: 30px;
+    font-size: 32px;
 
     font-weight: 800;
 
@@ -139,7 +161,9 @@ html, body, [class*="css"] {
     margin-bottom: 20px;
 }
 
-/* RISK BOXES */
+/* =========================================================
+RISK BOXES
+========================================================= */
 
 .low {
 
@@ -186,7 +210,9 @@ html, body, [class*="css"] {
     font-weight: bold;
 }
 
-/* BUTTON */
+/* =========================================================
+BUTTONS
+========================================================= */
 
 .stButton > button {
 
@@ -212,7 +238,9 @@ html, body, [class*="css"] {
     );
 }
 
-/* FOOTER */
+/* =========================================================
+FOOTER
+========================================================= */
 
 footer {
     visibility: hidden;
@@ -235,23 +263,25 @@ if "page" not in st.session_state:
 if st.session_state.page == 0:
 
     st.markdown("""
-    <div class="hero">
+    <div class="hero-box">
 
-        <div class="hero-title">
-        🩺 Difficult Thyroidectomy Risk Calculator PRO
-        </div>
+    <div class="big-title">
+    🩺 DIFFICULT <br>
+    THYROIDECTOMY <br>
+    RISK CALCULATOR
+    </div>
 
-        <br>
+    <br>
 
-        <div class="hero-sub">
-        AI-Powered Surgical Difficulty Prediction Platform
-        </div>
+    <div class="sub-title">
+    AI-Powered Surgical Difficulty Prediction Platform
+    </div>
 
-        <br>
+    <br>
 
-        <div style="font-size:18px;">
-        Advanced Clinical Decision Support for Endocrine Surgery
-        </div>
+    <div class="tagline">
+    Advanced Clinical Decision Support for Endocrine Surgery
+    </div>
 
     </div>
     """, unsafe_allow_html=True)
@@ -327,8 +357,6 @@ if st.session_state.page == 0:
         """, unsafe_allow_html=True)
 
     st.markdown("<br><br>", unsafe_allow_html=True)
-
-    # ========================================================
 
     st.markdown("""
     <div style='text-align:center;'>
