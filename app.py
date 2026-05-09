@@ -1,7 +1,7 @@
 # ============================================================
-# DIFFICULT THYROIDECTOMY CALCULATOR PRO
-# FINAL THESIS VERSION (n=180 | TDSS ≥14)
-# PREMIUM STABLE STREAMLIT VERSION
+# DIFFICULT THYROIDECTOMY RISK CALCULATOR PRO
+# CLEAN PROFESSIONAL UI VERSION
+# STREAMLIT + GITHUB READY
 # ============================================================
 
 import streamlit as st
@@ -16,7 +16,7 @@ import time
 # ============================================================
 
 st.set_page_config(
-    page_title="Difficult Thyroidectomy Calculator PRO",
+    page_title="Difficult Thyroidectomy Risk Calculator PRO",
     page_icon="🩺",
     layout="wide",
     initial_sidebar_state="collapsed"
@@ -31,13 +31,68 @@ st.markdown("""
 
 html, body, [class*="css"] {
     font-family: 'Segoe UI', sans-serif;
-    background: #081229;
+    background-color: #071739;
     color: white;
 }
 
 .main {
     background:
-    radial-gradient(circle at top left, #0B2447 0%, #081229 60%);
+    radial-gradient(circle at top left, #0B2447 0%, #071739 60%);
+}
+
+/* HERO */
+
+.hero {
+
+    padding: 65px;
+
+    border-radius: 30px;
+
+    background:
+    linear-gradient(
+    135deg,
+    #00C6FF,
+    #0072FF,
+    #7F00FF
+    );
+
+    background-size: 300% 300%;
+
+    animation: gradient 12s ease infinite;
+
+    text-align: center;
+
+    color: white;
+
+    margin-bottom: 30px;
+
+    box-shadow:
+    0px 10px 40px rgba(0,0,0,0.35);
+}
+
+@keyframes gradient {
+
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.hero-title {
+    font-size: 56px;
+    font-weight: 900;
+}
+
+.hero-sub {
+    font-size: 22px;
+    opacity: 0.95;
 }
 
 /* CARDS */
@@ -50,67 +105,85 @@ html, body, [class*="css"] {
     backdrop-filter:
     blur(12px);
 
-    border-radius: 24px;
+    border-radius: 22px;
 
-    padding: 28px;
+    padding: 25px;
+
+    margin-bottom: 20px;
 
     box-shadow:
     0px 8px 30px rgba(0,0,0,0.25);
 
-    transition: all 0.4s ease;
-
-    margin-bottom: 20px;
+    transition: 0.4s;
 }
 
 .card:hover {
 
     transform:
-    translateY(-8px)
-    scale(1.02);
+    translateY(-6px);
 
     box-shadow:
-    0px 15px 40px rgba(0,229,255,0.35);
+    0px 12px 35px rgba(0,229,255,0.35);
 }
 
 /* TITLES */
 
 .section-title {
-    font-size: 32px;
+
+    font-size: 30px;
+
     font-weight: 800;
+
     color: #00E5FF;
+
     margin-bottom: 20px;
 }
 
 /* RISK BOXES */
 
 .low {
+
     background: #00C853;
+
     padding: 22px;
+
     border-radius: 18px;
+
     text-align: center;
+
     font-size: 30px;
+
     font-weight: bold;
-    color: white;
 }
 
 .medium {
+
     background: #FF9800;
+
     padding: 22px;
+
     border-radius: 18px;
+
     text-align: center;
+
     font-size: 30px;
+
     font-weight: bold;
-    color: white;
 }
 
 .high {
+
     background: #D50000;
+
     padding: 22px;
+
     border-radius: 18px;
+
     text-align: center;
+
     font-size: 30px;
+
     font-weight: bold;
-    color: white;
 }
 
 /* BUTTON */
@@ -156,55 +229,35 @@ if "page" not in st.session_state:
     st.session_state.page = 0
 
 # ============================================================
-# PAGE 1 — LANDING PAGE
+# PAGE 1 - LANDING PAGE
 # ============================================================
 
 if st.session_state.page == 0:
 
-    # ========================================================
-    # HERO IMAGE
-    # ========================================================
+    st.markdown("""
+    <div class="hero">
 
-    st.image(
-        "a_highly_detailed_medical_poster_banner_style_imag.png",
-        use_container_width=True
-    )
+        <div class="hero-title">
+        🩺 Difficult Thyroidectomy Risk Calculator PRO
+        </div>
+
+        <br>
+
+        <div class="hero-sub">
+        AI-Powered Surgical Difficulty Prediction Platform
+        </div>
+
+        <br>
+
+        <div style="font-size:18px;">
+        Advanced Clinical Decision Support for Endocrine Surgery
+        </div>
+
+    </div>
+    """, unsafe_allow_html=True)
 
     st.markdown("<br>", unsafe_allow_html=True)
 
-    # ========================================================
-    # TITLE
-    # ========================================================
-
-    st.markdown("""
-    # 🩺 DIFFICULT THYROIDECTOMY RISK CALCULATOR PRO
-    """)
-
-    st.markdown("""
-    ### AI-Powered Surgical Difficulty Prediction Platform
-    """)
-
-    st.markdown("""
-    #### Final MCh Thesis Model • Nomogram-Based Prediction
-    """)
-
-    st.markdown("---")
-
-    # ========================================================
-    # METRICS
-    # ========================================================
-
-    s1,s2,s3,s4 = st.columns(4)
-
-    s1.metric("Patients","180")
-    s2.metric("AUC","0.905")
-    s3.metric("Sensitivity","84.1%")
-    s4.metric("Specificity","93.9%")
-
-    st.markdown("<br>", unsafe_allow_html=True)
-
-    # ========================================================
-    # FEATURE CARDS
     # ========================================================
 
     c1,c2,c3 = st.columns(3)
@@ -217,14 +270,16 @@ if st.session_state.page == 0:
         ## 📊 Prediction Engine
 
         Advanced multivariable
-        logistic regression model.
+        surgical risk prediction
+        platform designed for
+        difficult thyroidectomy assessment.
 
         <br>
 
-        ✅ Nomogram scoring  
-        ✅ ROC validated  
-        ✅ Dynamic probability  
-        ✅ TDSS-based model
+        ✅ Dynamic risk calculation  
+        ✅ Nomogram-based scoring  
+        ✅ Operative complexity assessment  
+        ✅ Real-time prediction
 
         </div>
         """, unsafe_allow_html=True)
@@ -236,15 +291,16 @@ if st.session_state.page == 0:
 
         ## 🧠 Surgical Intelligence
 
-        AI-assisted operative
-        difficulty prediction.
+        AI-assisted endocrine surgery
+        planning and operative
+        difficulty evaluation.
 
         <br>
 
-        ✅ RLN awareness  
+        ✅ RLN risk awareness  
+        ✅ Surgical planning support  
         ✅ Complexity alerts  
-        ✅ Neck dissection impact  
-        ✅ Operative planning
+        ✅ Neck dissection impact
 
         </div>
         """, unsafe_allow_html=True)
@@ -257,14 +313,15 @@ if st.session_state.page == 0:
         ## 🚀 Professional Dashboard
 
         Premium endocrine surgery
-        decision support system.
+        clinical decision support
+        interface.
 
         <br>
 
-        ✅ Downloadable report  
-        ✅ Mobile responsive  
-        ✅ Modern UI  
-        ✅ Glassmorphism
+        ✅ Interactive dashboard  
+        ✅ Clinical recommendations  
+        ✅ Downloadable reports  
+        ✅ Mobile responsive UI
 
         </div>
         """, unsafe_allow_html=True)
@@ -272,8 +329,23 @@ if st.session_state.page == 0:
     st.markdown("<br><br>", unsafe_allow_html=True)
 
     # ========================================================
-    # CTA BUTTON
-    # ========================================================
+
+    st.markdown("""
+    <div style='text-align:center;'>
+
+    <h2 style='color:white;'>
+    Begin Patient Risk Assessment
+    </h2>
+
+    <p style='font-size:18px;color:#D0D0D0;'>
+    Predict operative difficulty using advanced clinical,
+    imaging and surgical parameters.
+    </p>
+
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("<br>", unsafe_allow_html=True)
 
     a,b,c = st.columns([1,2,1])
 
@@ -283,15 +355,8 @@ if st.session_state.page == 0:
             st.session_state.page = 1
             st.rerun()
 
-    st.markdown("<br>", unsafe_allow_html=True)
-
-    st.info("""
-    Developed using final MCh Endocrine Surgery thesis data
-    with multivariable logistic regression modeling.
-    """)
-
 # ============================================================
-# PAGE 2 — INPUT PAGE
+# PAGE 2 - INPUT PAGE
 # ============================================================
 
 elif st.session_state.page == 1:
@@ -304,8 +369,6 @@ elif st.session_state.page == 1:
 
     progress = st.progress(10)
 
-    # ========================================================
-    # DEMOGRAPHICS
     # ========================================================
 
     st.markdown('<div class="card">', unsafe_allow_html=True)
@@ -332,8 +395,6 @@ elif st.session_state.page == 1:
 
     progress.progress(30)
 
-    # ========================================================
-    # IMAGING
     # ========================================================
 
     st.markdown('<div class="card">', unsafe_allow_html=True)
@@ -373,8 +434,6 @@ elif st.session_state.page == 1:
     progress.progress(55)
 
     # ========================================================
-    # CYTOLOGY
-    # ========================================================
 
     st.markdown('<div class="card">', unsafe_allow_html=True)
 
@@ -387,10 +446,8 @@ elif st.session_state.page == 1:
 
     st.markdown('</div>', unsafe_allow_html=True)
 
-    progress.progress(75)
+    progress.progress(70)
 
-    # ========================================================
-    # SYMPTOMS
     # ========================================================
 
     st.markdown('<div class="card">', unsafe_allow_html=True)
@@ -417,10 +474,8 @@ elif st.session_state.page == 1:
 
     st.markdown('</div>', unsafe_allow_html=True)
 
-    progress.progress(90)
+    progress.progress(85)
 
-    # ========================================================
-    # PROCEDURE
     # ========================================================
 
     st.markdown('<div class="card">', unsafe_allow_html=True)
@@ -442,8 +497,6 @@ elif st.session_state.page == 1:
 
     st.markdown("<br>", unsafe_allow_html=True)
 
-    # ========================================================
-    # BUTTONS
     # ========================================================
 
     c1,c2 = st.columns(2)
@@ -477,7 +530,7 @@ elif st.session_state.page == 1:
             st.rerun()
 
 # ============================================================
-# PAGE 3 — RESULTS PAGE
+# PAGE 3 - RESULTS PAGE
 # ============================================================
 
 elif st.session_state.page == 2:
@@ -495,8 +548,6 @@ elif st.session_state.page == 2:
     procedure = st.session_state.procedure
 
     # ========================================================
-    # ENCODING
-    # ========================================================
 
     rse_bin = 1 if rse == "Yes" else 0
     thyroiditis_bin = 1 if thyroiditis == "Yes" else 0
@@ -511,7 +562,7 @@ elif st.session_state.page == 2:
         proc_bin = 1.5
 
     # ========================================================
-    # FINAL THESIS MODEL
+    # MODEL
     # ========================================================
 
     intercept = -8.2
@@ -525,8 +576,6 @@ elif st.session_state.page == 2:
     beta_tirads = 0.098
     beta_compressive = -0.066
 
-    # ========================================================
-    # LOGISTIC MODEL
     # ========================================================
 
     logit = (
@@ -552,8 +601,6 @@ elif st.session_state.page == 2:
         risk_percent = 1
 
     # ========================================================
-    # RISK CATEGORY
-    # ========================================================
 
     if risk_percent < 20:
         risk_class = "LOW RISK"
@@ -568,8 +615,6 @@ elif st.session_state.page == 2:
         risk_style = "high"
 
     # ========================================================
-    # HEADER
-    # ========================================================
 
     st.markdown("""
     <div class="section-title">
@@ -578,20 +623,15 @@ elif st.session_state.page == 2:
     """, unsafe_allow_html=True)
 
     # ========================================================
-    # METRICS
-    # ========================================================
 
-    m1,m2,m3,m4 = st.columns(4)
+    m1,m2,m3 = st.columns(3)
 
     m1.metric("Risk %",f"{risk_percent}%")
-    m2.metric("AUC","0.905")
-    m3.metric("Sensitivity","84.1%")
-    m4.metric("Specificity","93.9%")
+    m2.metric("Procedure",procedure)
+    m3.metric("TIRADS",tirads)
 
     st.markdown("<br>", unsafe_allow_html=True)
 
-    # ========================================================
-    # MAIN GRID
     # ========================================================
 
     left,right = st.columns([1,1])
@@ -621,7 +661,7 @@ elif st.session_state.page == 2:
         ))
 
         gauge.update_layout(
-            paper_bgcolor="#081229",
+            paper_bgcolor="#071739",
             font={'color': "white"},
             height=420
         )
@@ -661,48 +701,6 @@ elif st.session_state.page == 2:
 
         st.markdown('</div>', unsafe_allow_html=True)
 
-    # ========================================================
-    # ROC CURVE
-    # ========================================================
-
-    st.markdown("""
-    <div class="section-title">
-    ROC Performance Curve
-    </div>
-    """, unsafe_allow_html=True)
-
-    roc_x = [0,0.02,0.05,0.1,0.2,1]
-    roc_y = [0,0.55,0.82,0.90,0.95,1]
-
-    roc_fig = px.line(
-        x=roc_x,
-        y=roc_y,
-        labels={
-            "x":"1 - Specificity",
-            "y":"Sensitivity"
-        },
-        title="ROC Curve (AUC = 0.905)"
-    )
-
-    roc_fig.add_shape(
-        type='line',
-        line=dict(dash='dash'),
-        x0=0,
-        x1=1,
-        y0=0,
-        y1=1
-    )
-
-    roc_fig.update_layout(
-        paper_bgcolor="#081229",
-        plot_bgcolor="#081229",
-        font_color="white"
-    )
-
-    st.plotly_chart(roc_fig,use_container_width=True)
-
-    # ========================================================
-    # RECOMMENDATIONS
     # ========================================================
 
     st.markdown("""
@@ -744,20 +742,16 @@ elif st.session_state.page == 2:
         """)
 
     # ========================================================
-    # ALERT
-    # ========================================================
 
     if procedure == "Total Thyroidectomy + Lymph Node Dissection":
 
         st.error("""
         ⚠ HIGH COMPLEXITY ALERT
 
-        Lymph node dissection significantly
-        increases operative complexity and TDSS score.
+        Planned lymph node dissection significantly
+        increases operative complexity.
         """)
 
-    # ========================================================
-    # REPORT
     # ========================================================
 
     st.markdown("""
@@ -808,8 +802,6 @@ elif st.session_state.page == 2:
     st.markdown("<br>", unsafe_allow_html=True)
 
     # ========================================================
-    # BUTTONS
-    # ========================================================
 
     c1,c2 = st.columns(2)
 
@@ -826,25 +818,9 @@ elif st.session_state.page == 2:
             st.rerun()
 
     # ========================================================
-    # FOOTER
-    # ========================================================
 
     st.markdown("---")
 
-    st.markdown("""
-    ### 🩺 Difficult Thyroidectomy Calculator PRO
-
-    Final MCh Endocrine Surgery Thesis Model
-
-    #### Model Performance
-    • AUC = 0.905  
-    • Sensitivity = 84.1%  
-    • Specificity = 93.9%  
-    • Brier Score = 0.101  
-
-    #### Based on:
-    180-patient prospective thyroid surgery cohort  
-    TDSS ≥14 difficult thyroidectomy definition
-
-    For academic and clinical research use only.
+    st.caption("""
+    Advanced endocrine surgery clinical decision support platform.
     """)
